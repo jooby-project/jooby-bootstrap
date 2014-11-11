@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# vim: set filetype=sh
+
+MVNCMD=$(command -v mvn)
+if [ -z ${MVNCMD} ] || [ ! -x ${MVNCMD} ]; then
+  echo "maven 3.x is required"
+  echo "if you use brew do 'brew install maven'"
+  exit 127 
+fi
+
+if [ -z "$(java -version 2>&1 | grep version | grep 1.8)" ]; then 
+  echo "java 8 is required"
+  echo "if you use brew do 'brew install java' and setup JAVA_HOME"
+  echo "you will be prompted for your password"
+  exit 127
+fi
+
+
