@@ -16,4 +16,68 @@ if [ -z "$(java -version 2>&1 | grep version | grep 1.8)" ]; then
   exit 127
 fi
 
+RED='\033[0;41;30m'
+STD='\033[0;0;39m'
+
+GROUPID=com.mycompany
+ARTIFACTID=my-app
+VERSION=0.0.1-SNAPSHOT
+
+AAID=jooby-archetype
+AGID=org.jooby
+AVER=0.1.0
+
+show_menus() {
+  clear
+  echo "~~~~~~~~~~~~~~~~~~~~~"  
+  echo " M A I N - M E N U"
+  echo "~~~~~~~~~~~~~~~~~~~~~"
+  echo "1. Choose your project's groupId (default: com.mycompany) current: ${GROUPID}"
+  echo "2. Choose your project's artifactId (default: my-app) current: ${ARTIFACTID}"
+  echo "3. Choose your project's version (default: 0.0.1-SNAPSHOT) current: ${VERSION}"
+  echo "G. Generate project"
+  echo "Q. Exit"
+  echo "R. Reset Terminal"
+}
+
+groupid(){
+  echo -n "Enter your project's groupId (current: ${GROUPID}) "
+  read GROUPID
+}
+
+artifactid(){
+  echo -n "Enter your project's groupId (current: ${ARTIFACTID}) "
+  read ARTIFACTID
+}
+
+version(){
+  echo -n "Enter your project's version (current: ${VERSION}) "
+  read ARTIFACTID
+}
+
+go(){
+  ${MVNCMD} archetype:generate -B -DgroupId=${GROUPID} -DartifactId=${ARTIFACTID} \
+    -Dversion=${VERSION} -DarchetypeArtifactId=${AAID} \
+    -DarchetypeGroupId=${AGID} -DarchetypeVersion=${AVER}
+  exit 0
+}
+
+read_options() {
+  local choice
+  read -p "Enter choice " choice
+  case ${choice} in
+    1) groupid ;;
+    2) artifactid ;;
+    3) version ;;
+    G) go ;;
+    Q) exit 0;;
+    *) echo -e "${RED}Error...${STD}" && sleep 1
+  esac
+}
+
+while true
+do
+  show_menus
+  read_options
+done
 
