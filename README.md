@@ -1,4 +1,6 @@
 jooby-bootstrap
 ===============
 
-Script to simplify the creation of jooby apps
+Download the jooby script into your path. 
+
+Execute jooby, follow the menu instructions.
