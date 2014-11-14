@@ -35,9 +35,9 @@ show_menus() {
   echo "1. Choose your project's groupId (default: com.mycompany) current: ${GROUPID}"
   echo "2. Choose your project's artifactId (default: my-app) current: ${ARTIFACTID}"
   echo "3. Choose your project's version (default: 0.0.1-SNAPSHOT) current: ${VERSION}"
+  echo "R. Run project"
   echo "G. Generate project"
   echo "Q. Exit"
-  echo "R. Reset Terminal"
 }
 
 groupid(){
@@ -66,18 +66,64 @@ read_options() {
   local choice
   read -p "Enter choice " choice
   case ${choice} in
-    1) groupid ;;
-    2) artifactid ;;
-    3) version ;;
-    G) go ;;
-    Q) exit 0;;
-    *) echo -e "${RED}Error...${STD}" && sleep 1
+    1)
+      groupid
+      ;;
+    2)
+      artifactid
+      ;;
+    3)
+      version
+      ;;
+    R)
+      start_jooby_app
+      ;;
+    G)
+      go
+      ;;
+    Q)
+      exit 0;;
+    *)
+      echo -e "${RED}Error...${STD}" && sleep 1
   esac
 }
 
-while true
-do
-  show_menus
-  read_options
-done
+generate_loop() {
+  while true
+  do
+    show_menus
+    read_options
+  done
+}
 
+start_jooby_app() {
+  if [ -f "${PWD}/pom.xml" ] && [ ! -z "$(grep org.jooby ${PWD}/pom.xml)" ] ; then
+    ${MVNCMD} jooby:run
+    exit 0
+  else
+    echo "not a jooby project"
+    exit 1
+  fi
+}
+
+if [ $# -gt 0 ]; then
+  for i in "$@"; do
+    case $i in 
+      generate)
+        generate_loop
+        ;;
+      help)
+        echo "here goes the help"
+        ;;
+      run)
+        start_jooby_app
+        ;;
+      *)
+        echo "invalid command"
+        echo "call help"
+        ;;
+    esac
+  done
+else
+  generate_loop
+fi
