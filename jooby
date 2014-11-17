@@ -27,6 +27,8 @@ AAID=jooby-archetype
 AGID=org.jooby
 AVER=0.1.0
 
+BOOTVER=0.2.2
+
 show_menus() {
   clear
   echo "~~~~~~~~~~~~~~~~~~~~~"  
@@ -106,6 +108,14 @@ start_jooby_app() {
   fi
 }
 
+print_version() {
+  echo "bootstrap version: ${BOOTVER}"
+}
+
+print_fullversion() {
+  print_version
+  echo "jooby version: ${AVER}"
+}
 if [ $# -gt 0 ]; then
   for i in "$@"; do
     case $i in 
@@ -117,6 +127,12 @@ if [ $# -gt 0 ]; then
         ;;
       run)
         start_jooby_app
+        ;;
+      fullversion)
+        print_fullversion
+        ;;
+      version)
+        print_version
         ;;
       *)
         echo "invalid command"
