@@ -54,7 +54,7 @@ artifactid(){
 
 version(){
   echo -n "Enter your project's version (current: ${VERSION}) "
-  read ARTIFACTID
+  read VERSION
 }
 
 go(){
@@ -77,13 +77,13 @@ read_options() {
     3)
       version
       ;;
-    R)
+    R|r)
       start_jooby_app
       ;;
-    G)
+    G|g)
       go
       ;;
-    Q)
+    Q|q)
       exit 0;;
     *)
       echo -e "${RED}Error...${STD}" && sleep 1
